@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projeção Comercial | WeRev</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Arsenal:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-inner">
+      <div class="marca">
+        <span class="wordmark">WEREV</span>
+        <span class="marca-sep"></span>
+        <span class="marca-sub">Projeção comercial</span>
+      </div>
+      <div class="acoes">
+        <button type="button" class="btn btn-ghost" id="btn-link">Copiar link do cenário</button>
+        <button type="button" class="btn btn-ghost" id="btn-reset">Recomeçar</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="pagina">
+    <section class="intro">
+      <div>
+        <h1>Quanto a WeRev fatura tocando estas operações</h1>
+        <p class="lead">Preencha receita e custos de cada operação. Os números se atualizam enquanto você digita. Valores mensais.</p>
+      </div>
+      <div class="qtd">
+        <label for="qtd-ops">Operações projetadas</label>
+        <div class="stepper">
+          <button type="button" id="qtd-menos" aria-label="Remover operação">−</button>
+          <input id="qtd-ops" type="number" min="1" max="20" value="1" inputmode="numeric">
+          <button type="button" id="qtd-mais" aria-label="Adicionar operação">+</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="operacoes" class="operacoes"></div>
+
+    <section class="consolidado" id="consolidado" aria-labelledby="tit-cons">
+      <div class="cons-head">
+        <span class="eyebrow">Consolidado WeRev</span>
+        <h2 id="tit-cons"><span id="cons-n">1 operação</span></h2>
+      </div>
+      <div class="cons-kpis">
+        <div class="kpi"><span class="kpi-l">Receita</span><span class="kpi-v" id="c-receita">R$ 0</span></div>
+        <div class="kpi"><span class="kpi-l">Custos</span><span class="kpi-v" id="c-custos">R$ 0</span></div>
+        <div class="kpi kpi-dest"><span class="kpi-l">Resultado</span><span class="kpi-v" id="c-resultado">R$ 0</span></div>
+        <div class="kpi"><span class="kpi-l">Margem</span><span class="kpi-v" id="c-margem">–</span></div>
+      </div>
+      <div class="tabela-wrap">
+        <table class="tabela">
+          <thead>
+            <tr>
+              <th>Operação</th>
+              <th class="num">Fat. cliente</th>
+              <th class="num">Receita</th>
+              <th class="num">Custos</th>
+              <th class="num">Resultado</th>
+              <th class="num">Margem</th>
+              <th class="barra-col">Peso no resultado</th>
+            </tr>
+          </thead>
+          <tbody id="c-linhas"></tbody>
+          <tfoot>
+            <tr>
+              <td>Total</td>
+              <td class="num" id="t-fat"></td>
+              <td class="num" id="t-receita"></td>
+              <td class="num" id="t-custos"></td>
+              <td class="num" id="t-resultado"></td>
+              <td class="num" id="t-margem"></td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div class="barra-fixa" id="barra-fixa">
+    <div class="barra-inner">
+      <span class="bf-l">Resultado WeRev / mês</span>
+      <span class="bf-v" id="bf-resultado">R$ 0</span>
+      <span class="bf-m" id="bf-margem"></span>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <template id="tpl-op">
+    <article class="op">
+      <div class="op-head">
+        <input class="op-nome" data-campo="nome" aria-label="Nome da operação" placeholder="Nome da operação">
+        <div class="op-acoes">
+          <button type="button" class="link" data-acao="duplicar">Duplicar</button>
+          <button type="button" class="link link-perigo" data-acao="remover">Remover</button>
+        </div>
+      </div>
+      <div class="op-corpo">
+        <div class="op-inputs">
+          <fieldset>
+            <legend>Receita</legend>
+            <div class="grid g3">
+              <label class="campo"><span>Fixo mensal</span><div class="in"><i>R$</i><input data-campo="fixo" data-tipo="moeda" inputmode="decimal"></div></label>
+              <label class="campo"><span>% sobre vendas</span><div class="in"><input data-campo="pct" data-tipo="pct" inputmode="decimal"><i>%</i></div></label>
+              <label class="campo"><span>Faturamento esperado</span><div class="in"><i>R$</i><input data-campo="fat" data-tipo="moeda" inputmode="decimal"></div></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Gestor comercial</legend>
+            <div class="grid g2">
+              <label class="campo"><span>Fixo</span><div class="in"><i>R$</i><input data-campo="gFixo" data-tipo="moeda" inputmode="decimal"></div></label>
+              <label class="campo"><span>Comissão</span><div class="in"><input data-campo="gPct" data-tipo="pct" inputmode="decimal"><i>%</i></div><small>sobre o faturamento</small></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Vendedores</legend>
+            <div class="grid g3">
+              <label class="campo"><span>Quantidade</span><div class="in"><input data-campo="vQtd" data-tipo="int" inputmode="numeric"></div></label>
+              <label class="campo"><span>Fixo por vendedor</span><div class="in"><i>R$</i><input data-campo="vFixo" data-tipo="moeda" inputmode="decimal"></div></label>
+              <label class="campo"><span>Comissão</span><div class="in"><input data-campo="vPct" data-tipo="pct" inputmode="decimal"><i>%</i></div><small>de cada um sobre a própria venda</small></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Ferramentas (mensal)</legend>
+            <div class="grid g3">
+              <label class="campo"><span>CRM</span><div class="in"><i>R$</i><input data-campo="crm" data-tipo="moeda" inputmode="decimal"></div></label>
+              <label class="campo"><span>Disparos de Wpp</span><div class="in"><i>R$</i><input data-campo="wpp" data-tipo="moeda" inputmode="decimal"></div></label>
+              <label class="campo"><span>Telefonia</span><div class="in"><i>R$</i><input data-campo="tel" data-tipo="moeda" inputmode="decimal"></div></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <aside class="op-res">
+          <div class="res-bloco">
+            <div class="res-linha res-forte"><span>Receita</span><b data-r="receita"></b></div>
+            <div class="res-linha res-sub"><span>Fixo</span><span data-r="receitaFixa"></span></div>
+            <div class="res-linha res-sub"><span>Variável</span><span data-r="receitaVariavel"></span></div>
+          </div>
+          <div class="res-bloco">
+            <div class="res-linha res-forte"><span>Custos</span><b data-r="custos"></b></div>
+            <div class="res-linha res-sub"><span>Gestor</span><span data-r="gestor"></span></div>
+            <div class="res-linha res-sub"><span>Vendedores</span><span data-r="vendedores"></span></div>
+            <div class="res-linha res-sub"><span>Ferramentas</span><span data-r="ferramentas"></span></div>
+          </div>
+          <div class="res-final">
+            <span>Resultado</span>
+            <b data-r="resultado"></b>
+            <span class="margem" data-r="margem"></span>
+          </div>
+          <div class="equilibrio">
+            <span class="eq-l">Ponto de equilíbrio</span>
+            <span class="eq-v" data-r="equilibrio"></span>
+            <span class="eq-n" data-r="equilibrioNota"></span>
+          </div>
+        </aside>
+      </div>
+    </article>
+  </template>
+
+  <script src="js/calc.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
