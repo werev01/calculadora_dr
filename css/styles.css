@@ -260,3 +260,82 @@ legend {
   .topo .acoes, .op-acoes, .barra-fixa, .toast, .qtd { display: none !important; }
   body { background: #fff; }
 }
+
+/* ---------- Abas ---------- */
+[hidden] { display: none !important; }
+.abas { background: var(--navy); border-top: 1px solid rgba(230, 223, 221, .1); }
+.abas-inner { max-width: 1240px; margin: 0 auto; padding: 0 24px; display: flex; gap: 4px; overflow-x: auto; }
+.aba {
+  background: none; border: 0; cursor: pointer; padding: 12px 16px 13px; font-size: 14px;
+  color: rgba(230, 223, 221, .6); border-bottom: 2px solid transparent; white-space: nowrap;
+}
+.aba:hover { color: var(--linen); }
+.aba[aria-selected="true"] { color: #fff; border-bottom-color: var(--whiskey-claro); }
+
+/* ---------- Funil ---------- */
+.funil-lista { display: flex; flex-direction: column; clear: both; }
+.etapa {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 160px 28px;
+  align-items: center; gap: 12px; padding: 10px 12px; border-radius: var(--raio); overflow: hidden;
+  background: var(--linen-2);
+}
+.etapa-barra { position: absolute; inset: 0; pointer-events: none; }
+.etapa-fill { height: 100%; background: rgba(132, 68, 32, .14); transition: width .25s; }
+.etapa-final .etapa-fill { background: rgba(132, 68, 32, .28); }
+.etapa > *:not(.etapa-barra) { position: relative; }
+.etapa-nome-fixo { font-weight: 500; font-size: 15px; }
+.etapa-nome {
+  border: 0; background: transparent; font-weight: 500; font-size: 15px; padding: 4px 0; min-width: 0;
+  border-bottom: 1px dashed var(--grey);
+}
+.etapa-nome:focus { outline: none; border-bottom-color: var(--whiskey); }
+.etapa .in-qtd { background: #fff; }
+.etapa .in-qtd input { font-weight: 600; }
+.etapa-rem {
+  width: 28px; height: 28px; border: 0; background: transparent; border-radius: 50%; cursor: pointer;
+  color: var(--taupe); font-size: 18px; line-height: 1;
+}
+.etapa-rem:hover { background: rgba(168, 50, 31, .1); color: var(--neg); }
+
+.passagem { display: flex; align-items: center; gap: 10px; padding: 6px 12px 6px 18px; flex-wrap: wrap; }
+.seta { width: 2px; height: 28px; background: var(--grey); position: relative; margin-right: 6px; }
+.seta::after {
+  content: ''; position: absolute; left: -4px; bottom: -2px; border: 5px solid transparent;
+  border-top-color: var(--grey); border-bottom: 0;
+}
+.in-taxa { width: 96px; }
+.passagem-l { font-size: 12px; color: var(--taupe); }
+.link-add { margin-left: auto; font-size: 12px; opacity: 0; transition: opacity .15s; }
+.passagem:hover .link-add, .link-add:focus-visible { opacity: 1; }
+@media (hover: none) { .link-add { opacity: 1; } }
+
+.reverso {
+  margin-top: 4px; background: rgba(132, 68, 32, .28); border-left: 3px solid var(--whiskey-claro);
+  padding: 12px; display: flex; flex-direction: column; gap: 8px;
+}
+.reverso-meta { display: flex; flex-direction: column; gap: 4px; }
+.reverso-meta > span { font-size: 12px; color: rgba(230, 223, 221, .75); }
+.in-escuro { background: rgba(255, 255, 255, .08); border-color: rgba(230, 223, 221, .25); }
+.in-escuro:focus-within { border-color: var(--linen); box-shadow: none; }
+.in-escuro i { color: rgba(230, 223, 221, .6); }
+.in-escuro input { color: #fff; }
+.in-escuro input::placeholder { color: rgba(230, 223, 221, .4); }
+.reverso-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.reverso-lista li { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: rgba(230, 223, 221, .75); }
+.reverso-lista b { font-weight: 500; color: var(--linen); }
+.reverso-lista li.rev-leads { margin-top: 4px; padding-top: 6px; border-top: 1px solid rgba(230, 223, 221, .2); font-size: 14px; color: #fff; }
+.reverso-lista li.rev-leads b { font-size: 18px; color: #fff; }
+
+.cons-kpis-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.cons-nota { margin: 14px 0 0; font-size: 12px; color: rgba(230, 223, 221, .55); }
+
+@media (max-width: 980px) {
+  .cons-kpis-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cons-kpis-5 .kpi { padding-left: 0; }
+  .cons-kpis-5 .kpi:nth-child(even) { padding-left: 18px; }
+  .cons-kpis-5 .kpi-dest { grid-column: 1 / -1; padding-left: 0; }
+}
+@media (max-width: 640px) {
+  .abas-inner { padding: 0 8px; }
+  .etapa { grid-template-columns: minmax(0, 1fr) 120px 28px; padding: 8px 10px; }
+}

@@ -302,16 +302,23 @@
   }
 
   $('#btn-link').addEventListener('click', async () => {
-    const url = location.origin + location.pathname + '#c=' + codificar(state.ops);
+    const funil = window.WeRevFunil && window.WeRevFunil.codificarEstado;
+    let url = location.origin + location.pathname + '#c=' + codificar(state.ops);
+    if (funil) url += '&f=' + funil() + '&t=' + window.WeRevFunil.abaAtual();
     try {
       await navigator.clipboard.writeText(url);
-      toast('Link copiado. Quem abrir vê exatamente este cenário.');
+      toast('Link copiado. Quem abrir vê exatamente este cenário, nas duas abas.');
     } catch (e) {
       window.prompt('Copie o link do cenário:', url);
     }
   });
 
   $('#btn-reset').addEventListener('click', () => {
+    if (window.WeRevFunil && window.WeRevFunil.abaAtual() === 'funil') {
+      window.WeRevFunil.recomecar();
+      toast('Funil reiniciado com o exemplo.');
+      return;
+    }
     state.ops = [opPadrao(1)];
     renderTudo();
     toast('Cenário reiniciado com o exemplo.');

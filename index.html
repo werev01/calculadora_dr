@@ -25,7 +25,14 @@
     </div>
   </header>
 
-  <main class="pagina">
+  <nav class="abas" role="tablist" aria-label="Calculadoras">
+    <div class="abas-inner">
+      <button type="button" class="aba" role="tab" data-aba="resultado" aria-selected="true">Resultado WeRev</button>
+      <button type="button" class="aba" role="tab" data-aba="funil" aria-selected="false">Funil comercial</button>
+    </div>
+  </nav>
+
+  <main class="pagina painel" data-painel="resultado">
     <section class="intro">
       <div>
         <h1>Quanto a WeRev fatura tocando estas operações</h1>
@@ -84,7 +91,79 @@
     </section>
   </main>
 
-  <div class="barra-fixa" id="barra-fixa">
+
+  <main class="pagina painel" data-painel="funil" hidden>
+    <section class="intro">
+      <div>
+        <h1>Quanto o comercial fatura em cada lançamento</h1>
+        <p class="lead">Preencha o funil pelas taxas ou pelos números, como preferir. O funil reverso mostra quantos leads são necessários para bater a meta.</p>
+      </div>
+      <div class="qtd">
+        <label for="f-qtd-ops">Operações projetadas</label>
+        <div class="stepper">
+          <button type="button" id="f-qtd-menos" aria-label="Remover operação">−</button>
+          <input id="f-qtd-ops" type="number" min="1" max="20" value="1" inputmode="numeric">
+          <button type="button" id="f-qtd-mais" aria-label="Adicionar operação">+</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="funis" class="operacoes"></div>
+
+    <section class="consolidado" id="f-consolidado" aria-labelledby="f-tit-cons">
+      <div class="cons-head">
+        <span class="eyebrow">Consolidado do funil</span>
+        <h2 id="f-tit-cons"><span id="f-cons-n">1 operação</span></h2>
+      </div>
+      <div class="cons-kpis cons-kpis-5">
+        <div class="kpi"><span class="kpi-l">Leads</span><span class="kpi-v" id="fc-leads">0</span></div>
+        <div class="kpi"><span class="kpi-l">Compradores</span><span class="kpi-v" id="fc-compradores">0</span></div>
+        <div class="kpi"><span class="kpi-l">Conversão total</span><span class="kpi-v" id="fc-conversao">–</span></div>
+        <div class="kpi"><span class="kpi-l">Ticket médio</span><span class="kpi-v" id="fc-ticket">–</span></div>
+        <div class="kpi kpi-dest"><span class="kpi-l">Faturamento bruto</span><span class="kpi-v" id="fc-fat">R$ 0</span></div>
+      </div>
+      <div class="tabela-wrap">
+        <table class="tabela">
+          <thead>
+            <tr>
+              <th>Operação</th>
+              <th class="num">Leads</th>
+              <th class="num">Compradores</th>
+              <th class="num">Conversão</th>
+              <th class="num">Ticket</th>
+              <th class="num">Faturamento</th>
+              <th class="num">Meta</th>
+              <th class="num">Leads p/ meta</th>
+            </tr>
+          </thead>
+          <tbody id="fc-linhas"></tbody>
+          <tfoot>
+            <tr>
+              <td>Total</td>
+              <td class="num" id="ft-leads"></td>
+              <td class="num" id="ft-compradores"></td>
+              <td class="num" id="ft-conversao"></td>
+              <td class="num" id="ft-ticket"></td>
+              <td class="num" id="ft-fat"></td>
+              <td class="num" id="ft-meta"></td>
+              <td class="num" id="ft-leads-meta"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <p class="cons-nota">Etapas intermediárias podem ser diferentes em cada operação, por isso o consolidado soma só o início (leads) e o fim (compradores e faturamento).</p>
+    </section>
+  </main>
+
+  <div class="barra-fixa painel-barra" id="f-barra-fixa" data-painel="funil" hidden>
+    <div class="barra-inner">
+      <span class="bf-l">Faturamento bruto projetado</span>
+      <span class="bf-v" id="fbf-fat">R$ 0</span>
+      <span class="bf-m" id="fbf-info"></span>
+    </div>
+  </div>
+
+  <div class="barra-fixa painel-barra" id="barra-fixa" data-painel="resultado">
     <div class="barra-inner">
       <span class="bf-l">Resultado WeRev / mês</span>
       <span class="bf-v" id="bf-resultado">R$ 0</span>
@@ -166,6 +245,8 @@
   </template>
 
   <script src="js/calc.js"></script>
+  <script src="js/funil.js"></script>
+  <script src="js/funil-app.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
